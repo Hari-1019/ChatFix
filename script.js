@@ -1,3 +1,22 @@
+// ============================================
+// EMAILJS CONFIGURATION
+// ============================================
+// IMPORTANT: Replace these with your actual EmailJS credentials
+const EMAILJS_SERVICE_ID = 'service_k5f80xv'; // Replace with your EmailJS Service ID
+const EMAILJS_TEMPLATE_ID = 'template_0rjy7w3'; // Replace with your EmailJS Template ID
+const EMAILJS_PUBLIC_KEY = 'CcFjVcwP28kMWzvcl'; // Replace with your EmailJS Public Key
+
+// Initialize EmailJS when the page loads
+(function() {
+    // Only initialize if EmailJS is available
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        console.log('EmailJS initialized successfully');
+    } else {
+        console.warn('EmailJS library not loaded. Please add the EmailJS CDN to your HTML.');
+    }
+})();
+
 // Function to scroll to contact section
 function scrollToContact() {
     const contactSection = document.getElementById('contact');
@@ -119,13 +138,11 @@ function initializeHeaderEffects() {
         
         if (header && navContainer) {
             if (currentScrollY > 100) {
-                // Keep the same oval styling when scrolled
                 navContainer.style.background = 'rgba(255, 255, 255, 0.98)';
                 navContainer.style.backdropFilter = 'blur(15px)';
                 navContainer.style.webkitBackdropFilter = 'blur(15px)';
                 navContainer.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
             } else {
-                // Original oval styling
                 navContainer.style.background = 'rgba(255, 255, 255, 0.95)';
                 navContainer.style.backdropFilter = 'blur(10px)';
                 navContainer.style.webkitBackdropFilter = 'blur(10px)';
@@ -135,17 +152,15 @@ function initializeHeaderEffects() {
     });
 }
 
-// Enhanced form submission with email functionality
+// ============================================
+// ENHANCED EMAIL FUNCTIONALITY WITH EMAILJS
+// ============================================
 function sendEmail(event) {
     event.preventDefault();
     
     const form = event.target;
     const submitButton = form.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
-    
-    // Show loading state
-    submitButton.textContent = 'Sending...';
-    submitButton.disabled = true;
     
     // Get form data
     const formData = new FormData(form);
@@ -159,50 +174,96 @@ function sendEmail(event) {
     const missingFields = requiredFields.filter(field => !formObject[field] || formObject[field].trim() === '');
     
     if (missingFields.length > 0) {
-        alert(`Please fill in the following required fields: ${missingFields.join(', ')}`);
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
+        showNotification(`Please fill in the following required fields: ${missingFields.join(', ')}`, 'error');
         return;
     }
     
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formObject.email)) {
-        alert('Please enter a valid email address.');
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
+        showNotification('Please enter a valid email address.', 'error');
         return;
     }
     
-    // ============================================
-    // ADMIN EMAIL CONFIGURATION
-    // ============================================
-    // TO CHANGE ADMIN EMAIL: Update the email address below
-    // Current admin email: harivarshan063@gmail.com
-    // When ChatFIX email is created, replace with: chatfixbpo@gmail.com
-    const ADMIN_EMAIL = 'harivarshan063@gmail.com'; // ← CHANGE THIS EMAIL ADDRESS HERE
+    // Show loading state
+    submitButton.textContent = 'Sending...';
+    submitButton.disabled = true;
     
-    // ============================================
-    // EMAIL SENDING FUNCTIONALITY
-    // ============================================
+    // Check if EmailJS is properly initialized
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS is not loaded. Falling back to mailto method.');
+        sendViaMailto(formObject, submitButton, originalButtonText, form);
+        return;
+    }
     
-    // Method 1: EmailJS (Recommended for production)
-    // You need to sign up at https://www.emailjs.com/ and get your service ID, template ID, and user ID
+    // Prepare email parameters for EmailJS
+    const templateParams = {
+        from_name: formObject.name,
+        from_email: formObject.email,
+        company: formObject.company || 'Not provided',
+        phone: formObject.phone || 'Not provided',
+        service: formObject.service,
+        message: formObject.message,
+        sent_time: new Date().toLocaleString(),
+        to_email: 'harivarshan063@gmail.com' // Your email address
+    };
     
-    // Method 2: Formspree (Alternative service)
-    // You can sign up at https://formspree.io/ and get an endpoint
-    
-    // Method 3: Using mailto (current method - opens user's email client)
-    sendViaMailto(formObject, ADMIN_EMAIL, submitButton, originalButtonText, form);
-    
-    // Method 4: Using a backend service (for production)
-    // sendViaBackend(formObject, ADMIN_EMAIL, submitButton, originalButtonText, form);
+    // Send email using EmailJS
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then(function(response) {
+            console.log('Email sent successfully:', response);
+            showNotification('🎉 Message sent successfully! We\'ll get back to you within 24 hours.', 'success');
+            
+            // Reset form
+            form.reset();
+            
+            // Send auto-reply to customer (optional)
+            sendAutoReply(formObject);
+        })
+        .catch(function(error) {
+            console.error('EmailJS failed:', error);
+            
+            // Fallback to mailto method if EmailJS fails
+            showNotification('Using alternative email method...', 'info');
+            setTimeout(() => {
+                sendViaMailto(formObject, submitButton, originalButtonText, form);
+            }, 1000);
+        })
+        .finally(function() {
+            // Reset button state
+            setTimeout(() => {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }, 2000);
+        });
 }
 
-// Method 3: Send via mailto (current implementation)
-function sendViaMailto(formObject, adminEmail, submitButton, originalButtonText, form) {
+// Send auto-reply to customer (optional feature)
+function sendAutoReply(formData) {
+    // This is optional - you can create a separate template in EmailJS for auto-replies
+    // Uncomment and configure if you want to send automatic confirmation emails to customers
+    /*
+    const autoReplyParams = {
+        to_email: formData.email,
+        to_name: formData.name,
+        service_requested: formData.service,
+        reply_to: 'harivarshan063@gmail.com'
+    };
+    
+    // Use a different template ID for auto-reply
+    emailjs.send(EMAILJS_SERVICE_ID, 'YOUR_AUTOREPLY_TEMPLATE_ID', autoReplyParams)
+        .then(function(response) {
+            console.log('Auto-reply sent to customer');
+        })
+        .catch(function(error) {
+            console.error('Auto-reply failed:', error);
+        });
+    */
+}
+
+// Fallback: Send via mailto
+function sendViaMailto(formObject, submitButton, originalButtonText, form) {
     try {
-        // Create email content
         const emailSubject = `🔴 URGENT: New Contact Form Submission from ${formObject.name}`;
         const emailBody = `
 === ChatFIX WEBSITE CONTACT FORM SUBMISSION ===
@@ -236,34 +297,24 @@ Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}
 
 ▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫
 
-This message was automatically generated from the ChatFIX website contact form.
-Website: ChatFIX Customer Support Services
+This message was sent from the ChatFIX website contact form.
 `;
         
-        // Create mailto link
-        const mailtoLink = `mailto:${adminEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        const mailtoLink = `mailto:harivarshan063@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
         
-        // Show success message to user
-        showSuccessMessage(formObject.name, formObject.email);
-        
-        // Open email client automatically
         window.open(mailtoLink, '_blank');
         
-        // Also send a copy to the customer (optional)
-        sendCustomerConfirmation(formObject);
+        showNotification('📧 Opening your email client to send the message...', 'info');
         
         // Reset form
-        form.reset();
-        
-        // Log for debugging
-        console.log('✅ Form submitted successfully to:', adminEmail);
-        console.log('📧 Customer details:', formObject);
+        setTimeout(() => {
+            form.reset();
+        }, 1000);
         
     } catch (error) {
-        console.error('❌ Error sending email:', error);
-        alert('There was an error sending your message. Please try again or contact us directly at ' + adminEmail);
+        console.error('Error with mailto:', error);
+        showNotification('Please email us directly at harivarshan063@gmail.com', 'error');
     } finally {
-        // Reset button state
         setTimeout(() => {
             submitButton.textContent = originalButtonText;
             submitButton.disabled = false;
@@ -271,83 +322,79 @@ Website: ChatFIX Customer Support Services
     }
 }
 
-// Send confirmation email to customer
-function sendCustomerConfirmation(formObject) {
-    const customerEmailSubject = `Thank you for contacting ChatFIX - We'll respond within 24 hours`;
-    const customerEmailBody = `Dear ${formObject.name},
-
-Thank you for contacting ChatFIX! 
-
-We have received your inquiry about "${formObject.service}" and will respond within 24 hours.
-
-Your message details:
-▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫
-${formObject.message}
-▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫▫
-
-Our team will contact you at: ${formObject.email}
-${formObject.phone ? `Phone: ${formObject.phone}` : ''}
-
-Best regards,
-ChatFIX Customer Support Team
-📧 Email: harivarshan063@gmail.com
-📞 Phone: +94 76-1234567
-
-Visit our website: ChatFIX Professional Customer Support Services`;
-
-    const customerMailtoLink = `mailto:${formObject.email}?subject=${encodeURIComponent(customerEmailSubject)}&body=${encodeURIComponent(customerEmailBody)}`;
+// Show notification function
+function showNotification(message, type = 'info') {
+    // Remove any existing notifications
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
     
-    // This will open another email to send to customer (optional)
-    // setTimeout(() => window.open(customerMailtoLink, '_blank'), 1000);
-}
-
-// Method 4: Backend service (for future implementation)
-function sendViaBackend(formObject, adminEmail, submitButton, originalButtonText, form) {
-    // This is for when you have a backend server
-    fetch('/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            to: adminEmail,
-            subject: `New Contact Form Submission from ${formObject.name}`,
-            formData: formObject
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showSuccessMessage(formObject.name, formObject.email);
-            form.reset();
-        } else {
-            throw new Error('Failed to send email');
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    // Add styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        max-width: 400px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    
+    // Set colors based on type
+    switch(type) {
+        case 'success':
+            notification.style.background = '#4CAF50';
+            notification.style.color = 'white';
+            break;
+        case 'error':
+            notification.style.background = '#f44336';
+            notification.style.color = 'white';
+            break;
+        case 'info':
+            notification.style.background = '#2196F3';
+            notification.style.color = 'white';
+            break;
+        default:
+            notification.style.background = '#333';
+            notification.style.color = 'white';
+    }
+    
+    // Add animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error sending your message. Please try again.');
-    })
-    .finally(() => {
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
-    });
-}
-
-// Enhanced success message
-function showSuccessMessage(name, email) {
-    const message = `🎉 Thank you ${name}!
-
-✅ Your message has been sent successfully!
-
-📧 We will contact you within 24 hours at: ${email}
-
-Our customer support team will review your inquiry and get back to you with the best solution for your needs.
-
-⏰ Expected response time: Within 24 hours
-📞 For urgent matters, call: +94 76-1234567
-
-Thank you for choosing ChatFIX! 🚀`;
+    `;
+    document.head.appendChild(style);
     
-    alert(message);
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        notification.style.transform = 'translateX(100%)';
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
 }
