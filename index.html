@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatFIX - Professional Customer Support Services</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="assets/ChatFIX__3_-removebg-preview.png" alt="ChatFIX Logo" class="logo-image">
+            </div>
+            <nav>
+                <div class="nav-menu">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+            <button class="cta-button" onclick="scrollToContact()">Schedule a Meeting</button>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <h1 class="fade-in">Welcome to ChatFIX</h1>
+            <p class="fade-in">Effortless Customer Support for Growing Businesses - 24/7 Professional Support Services</p>
+            <div class="hero-buttons fade-in">
+                <a href="#contact" class="btn-primary" onclick="scrollToContact()">📞 Book a Free Call</a>
+                <a href="#services" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Services</h2>
+                <p>Comprehensive customer support solutions tailored for your business needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop&crop=center" alt="Live Chat Support">
+                    </div>
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat Support</h3>
+                    <p>Real-time customer assistance through live chat integration on your website. Instant responses, professional communication, and seamless customer experience.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=400&h=300&fit=crop&crop=center" alt="Email Support">
+                    </div>
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Support</h3>
+                    <p>Professional email handling and response management. Timely, detailed, and personalized email support to maintain strong customer relationships.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1553775282-20af80779df7?w=400&h=300&fit=crop&crop=center" alt="Call Center Services">
+                    </div>
+                    <i class="fas fa-phone"></i>
+                    <h3>Call Center Services</h3>
+                    <p>Professional phone support with trained agents. Inbound and outbound call handling to ensure your customers receive exceptional voice support.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=center" alt="24/7 Support">
+                    </div>
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Availability</h3>
+                    <p>Round-the-clock customer support to serve your global customer base. Never miss a customer inquiry with our continuous support coverage.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=400&h=300&fit=crop&crop=center" alt="Multilingual Support">
+                    </div>
+                    <i class="fas fa-globe"></i>
+                    <h3>Multilingual Support</h3>
+                    <p>Support in multiple languages to serve your diverse customer base. Break language barriers and expand your global reach effectively.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&crop=center" alt="Analytics & Reporting">
+                    </div>
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics & Reporting</h3>
+                    <p>Detailed insights and reporting on customer interactions. Data-driven solutions to improve your customer service performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h3>About ChatFIX</h3>
+                    <h2>Your Trusted Customer Support Partner</h2>
+                    <p>ChatFIX is your partner in delivering exceptional customer support. We specialize in chat, email, and call handling services designed to meet the unique needs of startups and established businesses worldwide.</p>
+                    <p>Our team is dedicated to providing 24/7 support, ensuring that your customers receive prompt and professional assistance at all times. With a focus on quality and affordability, ChatFIX is committed to helping you enhance customer satisfaction and drive business growth.</p>
+                    <p>Whether you're a startup looking to establish your customer support foundation or a global enterprise seeking reliable support solutions, we have the expertise and resources to meet your needs.</p>
+                </div>
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop&crop=center" alt="Customer Support Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <h3>500+</h3>
+                    <p>Happy Clients</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <h3>24/7</h3>
+                    <p>Support Available</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <h3>50K+</h3>
+                    <p>Queries Resolved</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <h3>99.9%</h3>
+                    <p>Customer Satisfaction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Get In Touch</h2>
+                <p>Ready to enhance your customer support? Contact us today for a free consultation</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form fade-in">
+                    <form id="contactForm" onsubmit="sendEmail(event)">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="Live Chat Support">Live Chat Support</option>
+                                <option value="Email Support">Email Support</option>
+                                <option value="Call Center Services">Call Center Services</option>
+                                <option value="24/7 Support">24/7 Support</option>
+                                <option value="All Services">All Services</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primaryA">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info fade-in">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>Address</strong><br>
+                            103, Main Street<br>
+                            Kuliyapitiya, Sri Lanka
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Phone</strong><br>
+                            +94 76-1234567<br>
+                            +94 37-2281324
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email</strong><br>
+                            chatfixbpo@gmail.com<br>
+                            newshivashakthi@gmail.com
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>Business Hours</strong><br>
+                            24/7 Available<br>
+                            Monday - Sunday
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ChatFIX</h3>
+                    <p>Professional customer support services for growing businesses. We help you deliver exceptional customer experiences 24/7.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <a href="#">Live Chat Support</a>
+                    <a href="#">Email Support</a>
+                    <a href="#">Call Center Services</a>
+                    <a href="#">24/7 Support</a>
+                    <a href="#">Multilingual Support</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="#">About Us</a>
+                    <a href="#">Our Team</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ChatFIX. All rights reserved. | Designed with ❤️ in Sri Lanka</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
