@@ -212,7 +212,7 @@ function sendEmail(event) {
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         .then(function(response) {
             console.log('Email sent successfully:', response);
-            showNotification('🎉 Message sent successfully! We\'ll get back to you within 24 hours.', 'success');
+            showNotification('Message sent successfully! We\'ll get back to you within 24 hours.', 'success');
             
             // Reset form
             form.reset();
